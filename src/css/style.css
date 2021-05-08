@@ -15,10 +15,16 @@ body {
   min-height: 100vh;
 }
 
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
 .chat-container {
   background-color: #202027;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-  min-width: 400px;
   padding: 15px;
   display: flex;
   flex-direction: column;
@@ -27,13 +33,17 @@ body {
 }
 
 .chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 1rem;
 }
 
 .chat {
   background-color: #202027;
   display: flex;
-  font-size: 1.5rem;
+  font-size: 1.1rem;
+  justify-content: center;
   align-items: center;
   height: 70px;
   width: 100%;
@@ -41,6 +51,7 @@ body {
   position: relative;
   padding: 1rem;
   border-radius: 10px;
+  text-align: center;
 }
 
 .chat button {
