@@ -77,12 +77,14 @@ body {
 
 .chat-body {
   padding: 0 1rem 1rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .form-control {
   color: #eee;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   margin: 0.75rem 0;
 }
 
@@ -102,13 +104,48 @@ body {
 }
 
 #user-answer {
-  margin-left: 2rem;
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  font-size: medium;
 }
 
 #opciones {
+  font-family: "Poppins", sans-serif;
+  font-size: medium;
+  border: 1px solid #ccc;
   margin-right: 5px;
+  width: 80%;
+  border-radius: 4px;
 }
 
 #masOpciones {
-  margin-left: 5px;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  font-size: medium;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#opcionesTransferencia {
+  font-family: "Poppins", sans-serif;
+  font-size: medium;
+  border: 1px solid #ccc;
+  margin-right: 5px;
+  width: 80%;
+  border-radius: 4px;
+}
+
+#opcionesDevolucion {
+  font-family: "Poppins", sans-serif;
+  font-size: medium;
+  border: 1px solid #ccc;
+  margin-right: 5px;
+  width: 80%;
+  border-radius: 4px;
 }

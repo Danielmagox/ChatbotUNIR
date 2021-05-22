@@ -5,7 +5,6 @@ const fs = require("fs");
 const chatEl = document.getElementById("chat");
 const generateEl = document.getElementById("generate");
 const formEl = document.getElementById("chat-form");
-const labelrespuesta = document.getElementById("label-respuesta");
 let respuestaEl = document.getElementById("user-answer");
 const masOpciones = document.createElement("input");
 const opciones = document.createElement("select");
@@ -54,7 +53,6 @@ function fin() {
   opcionesDevolucion.remove();
   opcionesTransferencia.remove();
   opciones.remove();
-  labelrespuesta.remove();
   respuestaEl.remove();
   generateEl.remove();
   chatEl.innerHTML =
@@ -154,12 +152,11 @@ const siguienteRespuesta = async () => {
 
   if (counter == 9 && rama == "prestamista") {
     persona.telefono = respuesta;
-    labelrespuesta.style.display = "none";
     respuestaEl.style.display = "none";
     chatEl.innerHTML = "Tipo de objeto prestado";
     masOpciones.type = "text";
     masOpciones.id = "masOpciones";
-    masOpciones.placeholder = "En caso de otros especifica";
+    masOpciones.placeholder = "especifique otro";
     opciones.id = "opciones";
     optionB.text = "dinero";
     optionB.value = "dinero";
@@ -180,9 +177,7 @@ const siguienteRespuesta = async () => {
       opciones.remove();
       masOpciones.remove();
       chatEl.innerHTML = "¿Puedes describir el objeto que se va a prestar?";
-      labelrespuesta.style.display = "block";
       respuestaEl.style.display = "block";
-      labelrespuesta.removeAttribute("style");
       respuestaEl.removeAttribute("style");
     }
   }
@@ -193,9 +188,7 @@ const siguienteRespuesta = async () => {
       opciones.remove();
       masOpciones.remove();
       chatEl.innerHTML = "¿Qué valor estimado tiene lo que se va a prestar?";
-      labelrespuesta.style.display = "block";
       respuestaEl.style.display = "block";
-      labelrespuesta.removeAttribute("style");
       respuestaEl.removeAttribute("style");
     }
   }
@@ -206,9 +199,7 @@ const siguienteRespuesta = async () => {
       opciones.remove();
       masOpciones.remove();
       chatEl.innerHTML = "¿Cuándo deberá ser devuelto el objeto prestado?";
-      labelrespuesta.style.display = "block";
       respuestaEl.style.display = "block";
-      labelrespuesta.removeAttribute("style");
       respuestaEl.removeAttribute("style");
       fin();
     }
@@ -220,9 +211,7 @@ const siguienteRespuesta = async () => {
       opciones.remove();
       masOpciones.remove();
       chatEl.innerHTML = "Indique la cantidad Prestada";
-      labelrespuesta.style.display = "block";
       respuestaEl.style.display = "block";
-      labelrespuesta.removeAttribute("style");
       respuestaEl.removeAttribute("style");
     }
   }
@@ -230,7 +219,6 @@ const siguienteRespuesta = async () => {
   if (counter == 11 && rama == "prestamista") {
     if (opcionElegida == "dinero") {
       persona.cantidadPrestada = respuesta;
-      labelrespuesta.style.display = "none";
       respuestaEl.style.display = "none";
       chatEl.innerHTML =
         "Escoge la modalidad de entrega del importe de dinero objeto del préstamo";
@@ -254,16 +242,13 @@ const siguienteRespuesta = async () => {
       opcionesTransferencia.remove();
       chatEl.innerHTML =
         "Si eres tú quien prestas el dinero, ¿desde qué número de cuenta lo enviarás?";
-      labelrespuesta.style.display = "block";
       respuestaEl.style.display = "block";
-      labelrespuesta.removeAttribute("style");
       respuestaEl.removeAttribute("style");
     }
   }
 
   if (counter == 13 && rama == "prestamista") {
     persona.numeroCuenta = respuesta;
-    labelrespuesta.style.display = "none";
     respuestaEl.style.display = "none";
     chatEl.innerHTML =
       "Hablemos ahora de las condiciones de devolución acordadas para el préstamo";
@@ -297,9 +282,7 @@ const siguienteRespuesta = async () => {
       opcionesDevolucion.remove();
       chatEl.innerHTML =
         "¿Puedes describir las condiciones de devolución acordadas?";
-      labelrespuesta.style.display = "block";
       respuestaEl.style.display = "block";
-      labelrespuesta.removeAttribute("style");
       respuestaEl.removeAttribute("style");
     }
   }
