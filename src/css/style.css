@@ -20,6 +20,7 @@ body {
   align-items: center;
   justify-content: center;
   text-align: center;
+  font-size: 3rem;
 }
 
 .chat-container {
@@ -30,6 +31,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  flex-grow: 0;
 }
 
 .chat-header {
@@ -42,7 +44,7 @@ body {
 .chat {
   background-color: #202027;
   display: flex;
-  font-size: 1.1rem;
+  font-size: 1.5rem;
   justify-content: center;
   align-items: center;
   width: 100%;
@@ -84,6 +86,7 @@ body {
   margin: 0.75rem 0;
 }
 
+#descarga,
 .generate {
   background-color: #1762a7;
   border: none;
@@ -100,4 +103,12 @@ body {
 
 #user-answer {
   margin-left: 2rem;
+}
+
+#opciones {
+  margin-right: 5px;
+}
+
+#masOpciones {
+  margin-left: 5px;
 }

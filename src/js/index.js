@@ -1,5 +1,6 @@
 import _ from "lodash";
 import "babel-polyfill";
+const fs = require("fs");
 
 const chatEl = document.getElementById("chat");
 const generateEl = document.getElementById("generate");
@@ -10,15 +11,41 @@ const masOpciones = document.createElement("input");
 const opciones = document.createElement("select");
 const opcionesTransferencia = document.createElement("select");
 const opcionesDevolucion = document.createElement("select");
+const enlaceDescarga = document.createElement("a");
+const botonDescarga = document.createElement("button");
 const optionA = document.createElement("option");
 const optionB = document.createElement("option");
 const optionC = document.createElement("option");
-const optionD = document.createElement("option");
+let personaJson = "";
 
 let counter = 0;
 let rama = "";
 let opcionElegida = "";
 formEl.style.display = "none";
+let finRealizado = new Boolean(false);
+
+var persona = {
+  tipoPersona: "",
+  nombre: "",
+  apellidos: "",
+  documento: "",
+  municipio: "",
+  calleNum: "",
+  correo: "",
+  telefono: "",
+  tipoObjetoPrestado: "",
+  descripcionObjetoPrestado: "",
+  valorEstimadoObjetoPrestado: "",
+  cantidadPrestada: "",
+  modalidadEntrega: "",
+  numeroCuenta: "",
+  opcionDevolucion: "",
+  condicionesDevolucion: "",
+  importeFechaDeterminada: "",
+  fechaLimitePrestamo: "",
+  porcentajeInteres: "",
+};
+
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -30,9 +57,19 @@ function fin() {
   labelrespuesta.remove();
   respuestaEl.remove();
   generateEl.remove();
-  console.log("esta ebntrando aqui FIN");
   chatEl.innerHTML =
     "Ya hemos terminado, gracias por facilitarme toda esta informacion que nos ha permitido elaborar tu contrato. Mira en tu correo electrónico. Has debido recibir tu contrato personalizado";
+  finRealizado = Boolean(true);
+  imprimir();
+}
+
+function limpiar(persona) {
+  for (let propName in persona) {
+    if (persona[propName] === "" || persona[propName] === null) {
+      delete persona[propName];
+    }
+  }
+  return persona;
 }
 
 const siguienteRespuesta = async () => {
@@ -40,78 +77,94 @@ const siguienteRespuesta = async () => {
   let opcionElegida = opciones.value;
   let opcionElegidaDinero = opcionesTransferencia.value;
   let opcionElegidaDevoluciones = opcionesDevolucion.value;
-  console.log(opcionElegida);
-  console.log(opcionElegidaDinero);
-  console.log(opcionElegidaDevoluciones);
 
   await sleep(1000);
   if (counter == 0)
     chatEl.innerHTML = "¿Quieres que te ayude a formalizar un préstamo?";
-  if (counter == 1 && respuesta == "no")
+  if (counter == 1 && respuesta == "no") {
     chatEl.innerHTML =
       "Uno de nuestros expertos se pondrá en contacto contigo para ver cómo podemos ayudarte";
-  if (counter == 1 && respuesta == "si")
+    fin();
+  }
+  if (counter == 1 && respuesta == "si") {
     chatEl.innerHTML = "¿Eres prestamista o prestatario?";
+  }
+
   if (counter == 2 && respuesta == "prestamista") {
     chatEl.innerHTML = "¿Cuál es tu nombre?";
     rama = "prestamista";
+    persona.tipoPersona = respuesta;
   } else if (counter == 2 && respuesta == "prestatario") {
     chatEl.innerHTML = "¿Cómo te llamas?";
     rama = "prestatario";
+    persona.tipoPersona = respuesta;
   }
+
   if (counter == 3 && rama == "prestamista") {
     chatEl.innerHTML = "¿Cuáles son tus apellidos?";
+    persona.nombre = respuesta;
   } else if (counter == 3 && rama == "prestatario") {
     chatEl.innerHTML = "¿Cómo te apellidas?";
+    persona.nombre = respuesta;
   }
+
   if (counter == 4 && rama == "prestamista") {
     chatEl.innerHTML = "¿Cuál es tu número de DNI o NIE?";
+    persona.apellidos = respuesta;
   } else if (counter == 4 && rama == "prestatario") {
     chatEl.innerHTML = "¿Puedes decirme tu número de DNI o NIE?";
+    persona.apellidos = respuesta;
   }
 
   if (counter == 5 && rama == "prestamista") {
     chatEl.innerHTML = "¿En qué municipio vives?";
+    persona.documento = respuesta;
   } else if (counter == 5 && rama == "prestatario") {
     chatEl.innerHTML = "¿En qué municipio vives?";
+    persona.documento = respuesta;
   }
 
   if (counter == 6 && rama == "prestamista") {
     chatEl.innerHTML = "Y ¿en qué calle y número?";
+    persona.municipio = respuesta;
   } else if (counter == 6 && rama == "prestatario") {
     chatEl.innerHTML = "Y ¿en qué calle y número?";
+    persona.municipio = respuesta;
   }
 
   if (counter == 7 && rama == "prestamista") {
     chatEl.innerHTML =
       "Vamos a necesitar remitirte un documento e información, ¿a qué correo electrónico quieres que los enviemos?";
+    persona.calleNum = respuesta;
   } else if (counter == 7 && rama == "prestatario") {
     chatEl.innerHTML =
       "Vamos a necesitar remitirte un documento e información, ¿a qué correo electrónico quieres que los enviemos?";
+    persona.calleNum = respuesta;
   }
 
   if (counter == 8 && rama == "prestamista") {
     chatEl.innerHTML =
       "Y si necesitamos hablar contigo, ¿en qué teléfono podemos localizarte?";
+    persona.correo = respuesta;
   } else if (counter == 8 && rama == "prestatario") {
     chatEl.innerHTML =
       "Y si necesitamos hablar contigo, ¿en qué teléfono podemos localizarte?";
+    persona.correo = respuesta;
   }
 
   if (counter == 9 && rama == "prestamista") {
+    persona.telefono = respuesta;
     labelrespuesta.style.display = "none";
     respuestaEl.style.display = "none";
     chatEl.innerHTML = "Tipo de objeto prestado";
     masOpciones.type = "text";
     masOpciones.id = "masOpciones";
+    masOpciones.placeholder = "En caso de otros especifica";
     opciones.id = "opciones";
-    optionA.text = "objeto1";
-    optionA.value = "objeto1";
     optionB.text = "dinero";
     optionB.value = "dinero";
     optionC.text = "otro, especifique cual";
     optionC.value = "otro";
-    opciones.add(optionA);
     opciones.add(optionB);
     opciones.add(optionC);
     formEl.appendChild(opciones);
@@ -120,6 +173,10 @@ const siguienteRespuesta = async () => {
 
   if (counter == 10 && rama == "prestamista") {
     if (opcionElegida != "dinero") {
+      let respuestaOpciones = document.getElementById("masOpciones").value;
+      persona.tipoObjetoPrestado = opcionElegida;
+      if (opcionElegida == "otro")
+        persona.tipoObjetoPrestado = respuestaOpciones;
       opciones.remove();
       masOpciones.remove();
       chatEl.innerHTML = "¿Puedes describir el objeto que se va a prestar?";
@@ -132,6 +189,7 @@ const siguienteRespuesta = async () => {
 
   if (counter == 11 && rama == "prestamista") {
     if (opcionElegida != "dinero") {
+      persona.descripcionObjetoPrestado = respuesta;
       opciones.remove();
       masOpciones.remove();
       chatEl.innerHTML = "¿Qué valor estimado tiene lo que se va a prestar?";
@@ -144,6 +202,7 @@ const siguienteRespuesta = async () => {
 
   if (counter == 12 && rama == "prestamista") {
     if (opcionElegida != "dinero" && opcionElegidaDinero != "transferencia") {
+      persona.valorEstimadoObjetoPrestado = respuesta;
       opciones.remove();
       masOpciones.remove();
       chatEl.innerHTML = "¿Cuándo deberá ser devuelto el objeto prestado?";
@@ -157,6 +216,7 @@ const siguienteRespuesta = async () => {
 
   if (counter == 10 && rama == "prestamista") {
     if (opcionElegida == "dinero") {
+      persona.tipoObjetoPrestado = opcionElegida;
       opciones.remove();
       masOpciones.remove();
       chatEl.innerHTML = "Indique la cantidad Prestada";
@@ -169,6 +229,7 @@ const siguienteRespuesta = async () => {
 
   if (counter == 11 && rama == "prestamista") {
     if (opcionElegida == "dinero") {
+      persona.cantidadPrestada = respuesta;
       labelrespuesta.style.display = "none";
       respuestaEl.style.display = "none";
       chatEl.innerHTML =
@@ -189,8 +250,7 @@ const siguienteRespuesta = async () => {
 
   if (counter == 12 && rama == "prestamista") {
     if (opcionElegidaDinero == "transferencia") {
-      console.log(counter);
-      console.log(opcionElegida);
+      persona.modalidadEntrega = respuesta;
       opcionesTransferencia.remove();
       chatEl.innerHTML =
         "Si eres tú quien prestas el dinero, ¿desde qué número de cuenta lo enviarás?";
@@ -202,6 +262,7 @@ const siguienteRespuesta = async () => {
   }
 
   if (counter == 13 && rama == "prestamista") {
+    persona.numeroCuenta = respuesta;
     labelrespuesta.style.display = "none";
     respuestaEl.style.display = "none";
     chatEl.innerHTML =
@@ -225,12 +286,14 @@ const siguienteRespuesta = async () => {
 
   if (counter == 15 && rama == "prestamista") {
     if (opcionElegidaDevoluciones != "otra_forma") {
+      persona.opcionDevolucion = respuesta;
       fin();
     }
   }
 
   if (counter == 15 && rama == "prestamista") {
     if (opcionElegidaDevoluciones == "otra_forma") {
+      persona.opcionDevolucion = respuesta;
       opcionesDevolucion.remove();
       chatEl.innerHTML =
         "¿Puedes describir las condiciones de devolución acordadas?";
@@ -243,6 +306,7 @@ const siguienteRespuesta = async () => {
 
   if (counter == 16 && rama == "prestamista") {
     if (opcionElegidaDevoluciones == "otra_forma") {
+      persona.condicionesDevolucion = respuesta;
       chatEl.innerHTML =
         "¿Se tendrá que devolver el importe total antes de una fecha determinada?";
     }
@@ -250,6 +314,7 @@ const siguienteRespuesta = async () => {
 
   if (counter == 17 && rama == "prestamista") {
     if (opcionElegidaDevoluciones == "otra_forma") {
+      persona.opcionDevolucion = respuesta;
       chatEl.innerHTML =
         "Indica por favor la fecha límite en la que debe ser devuelto el importe prestado";
     }
@@ -257,14 +322,55 @@ const siguienteRespuesta = async () => {
 
   if (counter == 18 && rama == "prestamista") {
     if (opcionElegidaDevoluciones == "otra_forma") {
+      persona.fechaLimitePrestamo = respuesta;
       chatEl.innerHTML =
         "Si llegada esa fecha, no se hubiera devuelto todo o parte del importe prestado, ¿Qué porcentaje de interés deberá abonar el deudor?";
     }
+  }
+
+  if (counter == 19 && rama == "prestamista") {
+    persona.porcentajeInteres = respuesta;
     fin();
   }
 
-  formEl.style.display = "block";
+  if (counter == 0) formEl.style.display = "flex";
   counter = counter + 1;
+  respuestaEl.value = "";
 };
 
 generateEl.addEventListener("click", siguienteRespuesta);
+
+botonDescarga.addEventListener("click", function () {
+  let text = imprimir();
+  let filename = persona.documento;
+
+  download(filename, text);
+});
+
+function download(filename, text) {
+  enlaceDescarga.setAttribute(
+    "href",
+    "data:text/plain;charset=utf-8," + encodeURIComponent(text)
+  );
+  enlaceDescarga.setAttribute("download", filename);
+  enlaceDescarga.style.display = "none";
+
+  document.body.appendChild(enlaceDescarga);
+  enlaceDescarga.click();
+  document.body.removeChild(enlaceDescarga);
+}
+
+function imprimir() {
+  if (finRealizado === true) {
+    console.log("limpio");
+    persona = limpiar(persona);
+    console.log(persona);
+
+    personaJson = JSON.stringify(persona, null, 4);
+    botonDescarga.id = "descarga";
+    botonDescarga.innerText = "Descargar";
+    formEl.appendChild(botonDescarga);
+    console.log(personaJson);
+    return personaJson;
+  }
+}
