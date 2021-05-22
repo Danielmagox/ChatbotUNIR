@@ -120,7 +120,7 @@ body {
   font-size: medium;
   border: 1px solid #ccc;
   margin-right: 5px;
-  width: 80%;
+  width: 40%;
   border-radius: 4px;
 }
 
@@ -130,6 +130,7 @@ body {
   font-size: medium;
   border: 1px solid #ccc;
   border-radius: 4px;
+  width: 60%;
 }
 
 #opcionesTransferencia {
