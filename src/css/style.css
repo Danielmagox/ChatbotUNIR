@@ -24,7 +24,7 @@ body {
 }
 
 .chat-container {
-  background-color: ffffff;
+  background-color: #ffffff;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
   padding: 15px;
   display: flex;
@@ -42,7 +42,7 @@ body {
 }
 
 .chat {
-  background-color: ffffff;
+  background-color: #ffffff;
   display: flex;
   font-size: 1.5rem;
   justify-content: center;
