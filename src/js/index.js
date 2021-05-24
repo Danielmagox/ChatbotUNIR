@@ -377,15 +377,11 @@ function download(filename, text) {
 
 function imprimir() {
   if (finRealizado === true) {
-    console.log("limpio");
     persona = limpiar(persona);
-    console.log(persona);
-
     personaJson = JSON.stringify(persona, null, 4);
     botonDescarga.id = "descarga";
     botonDescarga.innerText = "Descargar";
     formEl.appendChild(botonDescarga);
-    console.log(personaJson);
     return personaJson;
   }
 }
