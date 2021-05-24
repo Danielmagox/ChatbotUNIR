@@ -8,6 +8,8 @@ const formEl = document.getElementById("chat-form");
 let respuestaEl = document.getElementById("user-answer");
 const masOpciones = document.createElement("input");
 const opciones = document.createElement("select");
+const opcionesPrestamo = document.createElement("select");
+const opcionesPrestamista = document.createElement("select");
 const opcionesTransferencia = document.createElement("select");
 const opcionesDevolucion = document.createElement("select");
 const enlaceDescarga = document.createElement("a");
@@ -55,6 +57,8 @@ function fin() {
   opciones.remove();
   respuestaEl.remove();
   generateEl.remove();
+  opcionesPrestamo.remove();
+  opcionesPrestamista.remove();
   chatEl.innerHTML =
     "Ya hemos terminado, gracias por facilitarme toda esta informacion que nos ha permitido elaborar tu contrato. Mira en tu correo electrónico. Has debido recibir tu contrato personalizado";
   finRealizado = Boolean(true);
@@ -76,19 +80,47 @@ const siguienteRespuesta = async () => {
   let opcionElegidaDinero = opcionesTransferencia.value;
   let opcionElegidaDevoluciones = opcionesDevolucion.value;
 
-  await sleep(1000);
-  if (counter == 0)
+  if (counter == 1)
+    respuesta = document.getElementById("opcionesPrestamo").value;
+  if (counter == 2)
+    respuesta = document.getElementById("opcionesPrestamista").value;
+
+  if (counter == 0) {
     chatEl.innerHTML = "¿Quieres que te ayude a formalizar un préstamo?";
+    respuestaEl.style.display = "none";
+    opcionesPrestamo.id = "opcionesPrestamo";
+    optionB.text = "Si";
+    optionB.value = "si";
+    optionC.text = "No";
+    optionC.value = "no";
+    opcionesPrestamo.add(optionB);
+    opcionesPrestamo.add(optionC);
+    formEl.appendChild(opcionesPrestamo);
+  }
+
   if (counter == 1 && respuesta == "no") {
     chatEl.innerHTML =
       "Uno de nuestros expertos se pondrá en contacto contigo para ver cómo podemos ayudarte";
-    fin();
+    opcionesPrestamo.remove();
+    generateEl.remove();
   }
   if (counter == 1 && respuesta == "si") {
     chatEl.innerHTML = "¿Eres prestamista o prestatario?";
+    opcionesPrestamo.remove();
+    respuestaEl.style.display = "none";
+    opcionesPrestamista.id = "opcionesPrestamista";
+    optionB.text = "Prestamista";
+    optionB.value = "prestamista";
+    optionC.text = "Prestatario";
+    optionC.value = "prestatario";
+    opcionesPrestamista.add(optionC);
+    opcionesPrestamista.add(optionB);
+    formEl.appendChild(opcionesPrestamista);
   }
-
   if (counter == 2 && respuesta == "prestamista") {
+    opcionesPrestamista.remove();
+    respuestaEl.style.display = "block";
+    respuestaEl.removeAttribute("style");
     chatEl.innerHTML = "¿Cuál es tu nombre?";
     rama = "prestamista";
     persona.tipoPersona = respuesta;

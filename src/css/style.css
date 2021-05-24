@@ -5,8 +5,8 @@
 }
 
 body {
-  background-color: #2f303a;
-  color: white;
+  background-color: #f1f1f1;
+  color: black;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -24,7 +24,7 @@ body {
 }
 
 .chat-container {
-  background-color: #202027;
+  background-color: ffffff;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
   padding: 15px;
   display: flex;
@@ -42,7 +42,7 @@ body {
 }
 
 .chat {
-  background-color: #202027;
+  background-color: ffffff;
   display: flex;
   font-size: 1.5rem;
   justify-content: center;
@@ -148,5 +148,23 @@ body {
   border: 1px solid #ccc;
   margin-right: 5px;
   width: 80%;
+  border-radius: 4px;
+}
+
+#opcionesPrestamo {
+  font-family: "Poppins", sans-serif;
+  font-size: medium;
+  border: 1px solid #ccc;
+  margin-right: 5px;
+  width: 80%;
+  border-radius: 4px;
+}
+
+#opcionesPrestamista {
+  font-family: "Poppins", sans-serif;
+  font-size: medium;
+  border: 1px solid #ccc;
+  margin-right: 5px;
+  width: 100%;
   border-radius: 4px;
 }
