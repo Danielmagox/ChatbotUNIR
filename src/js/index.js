@@ -105,13 +105,13 @@ const siguienteRespuesta = async () => {
     generateEl.remove();
   }
   if (counter == 1 && respuesta == "si") {
-    chatEl.innerHTML = "¿Eres prestamista o prestatario?";
+    chatEl.innerHTML = "¿Vas a prestar, o te van a prestar a ti?";
     opcionesPrestamo.remove();
     respuestaEl.style.display = "none";
     opcionesPrestamista.id = "opcionesPrestamista";
-    optionB.text = "Prestamista";
+    optionB.text = "Vas a prestar";
     optionB.value = "prestamista";
-    optionC.text = "Prestatario";
+    optionC.text = "Te van a prestar a ti";
     optionC.value = "prestatario";
     opcionesPrestamista.add(optionC);
     opcionesPrestamista.add(optionB);
@@ -125,6 +125,9 @@ const siguienteRespuesta = async () => {
     rama = "prestamista";
     persona.tipoPersona = respuesta;
   } else if (counter == 2 && respuesta == "prestatario") {
+    opcionesPrestamista.remove();
+    respuestaEl.style.display = "block";
+    respuestaEl.removeAttribute("style");
     chatEl.innerHTML = "¿Cómo te llamas?";
     rama = "prestatario";
     persona.tipoPersona = respuesta;
@@ -180,15 +183,13 @@ const siguienteRespuesta = async () => {
     chatEl.innerHTML =
       "Y si necesitamos hablar contigo, ¿en qué teléfono podemos localizarte?";
     persona.correo = respuesta;
+    fin();
   }
 
   if (counter == 9 && rama == "prestamista") {
     persona.telefono = respuesta;
     respuestaEl.style.display = "none";
     chatEl.innerHTML = "Tipo de objeto prestado";
-    masOpciones.type = "text";
-    masOpciones.id = "masOpciones";
-    masOpciones.placeholder = "especifique otro";
     opciones.id = "opciones";
     optionB.text = "dinero";
     optionB.value = "dinero";
@@ -197,17 +198,12 @@ const siguienteRespuesta = async () => {
     opciones.add(optionB);
     opciones.add(optionC);
     formEl.appendChild(opciones);
-    formEl.appendChild(masOpciones);
   }
 
   if (counter == 10 && rama == "prestamista") {
     if (opcionElegida != "dinero") {
-      let respuestaOpciones = document.getElementById("masOpciones").value;
       persona.tipoObjetoPrestado = opcionElegida;
-      if (opcionElegida == "otro")
-        persona.tipoObjetoPrestado = respuestaOpciones;
-      opciones.remove();
-      masOpciones.remove();
+      if (opcionElegida == "otro") opciones.remove();
       chatEl.innerHTML = "¿Puedes describir el objeto que se va a prestar?";
       respuestaEl.style.display = "block";
       respuestaEl.removeAttribute("style");
