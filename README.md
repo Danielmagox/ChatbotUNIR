@@ -4,8 +4,7 @@ Proyecto realizado para las prácticas externas de la UNIR que consiste en la re
 
 Pasos para instalarlo:
 
-1 - Tener node.js
-2 - npm install
+1 - npm install
 
 Para ejecutarlo:
 
